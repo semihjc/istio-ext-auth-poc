@@ -7,6 +7,10 @@ data:
       envoyExtAuthzHttp:
         service: "authn-service.default.svc.cluster.local"
         port: 8081
+        headersToUpstreamOnAllow: ["authorization"]
+        includeRequestBodyInCheck:
+          allowPartialMessage: true
+          maxRequestBytes: 8192  # Adjust based on your need
         pathPrefix: "/ingress-authn/admin"
         # Add this block to control which headers are sent to your service
         includeRequestBodyInCheck:
