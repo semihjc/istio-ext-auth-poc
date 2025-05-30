@@ -1,0 +1,16 @@
+# authorization-policy.yaml
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ext-authz-policy
+spec:
+  selector:
+    matchLabels:
+      app: httpbin # Apply this policy to the httpbin app
+  action: CUSTOM
+  provider:
+    # The name of the external authorizer.
+    name: my-ext-authorizer
+  rules:
+    # An empty rule means this policy applies to all requests.
+    - {}

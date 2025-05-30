@@ -1,0 +1,26 @@
+# kubectl edit configmap istio -n istio-system
+data:
+  mesh: |-
+    # Add this block
+    extensionProviders:
+    - name: "my-ext-authorizer"
+      envoyExtAuthzHttp:
+        service: "authn-service.default.svc.cluster.local"
+        port: 8081
+        pathPrefix: "/ingress-authn/admin"
+        # Add this block to control which headers are sent to your service
+        includeRequestBodyInCheck:
+          allowPartialMessage: true
+          maxRequestBytes: 8192  # Adjust based on your need
+        includeHeadersInCheck:
+        - authorization
+        - x-api-key     # For a custom API key
+        - cookie
+        - x-forwarded-for
+        - user-agent
+        - content-type
+        - content-length
+        - date
+        - x-request-id
+        - x-org-id
+        - keyId

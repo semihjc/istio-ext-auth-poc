@@ -1,0 +1,21 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"security.istio.io/v1","kind":"AuthorizationPolicy","metadata":{"annotations":{},"name":"ext-authz-policy","namespace":"default"},"spec":{"action":"CUSTOM","provider":{"name":"my-ext-authorizer"},"rules":[{}],"selector":{"matchLabels":{"app":"httpbin"}}}}
+  creationTimestamp: "2025-05-28T09:23:43Z"
+  generation: 1
+  name: ext-authz-policy
+  namespace: default
+  resourceVersion: "761147"
+  uid: 3e824433-9b96-4ef7-a565-8f7b5884f496
+spec:
+  action: CUSTOM
+  provider:
+    name: my-ext-authorizer
+  rules:
+  - {}
+  selector:
+    matchLabels:
+      app: httpbin

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authn-service
+  labels:
+    app: authn-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authn-service
+  template:
+    metadata:
+      labels:
+        app: authn-service
+    spec:
+      containers:
+      - name: authn-service
+        image: test-ingress:0.2
+        ports:
+        - containerPort: 8081
+        env:
+        - name: MONGO_DB
+          value: "test"
+        - name: MONGO_ADDRS
+          value: "mongodb"
+        - name: MONGO_USER
+          value: "root"
+        - name: MONGO_PASSWORD
+          value: "password123"
+        - name: MONGO_AUTH_SOURCE
+          value: "admin"
+        - name: JWT_PRIVATE_KEY_ENCRYPTED
+          value: "h25tOomgm3Acfs1uYuMNGt3OkLkS01Ap9hxySDAKdtE="
+        - name: LOG_LEVEL
+          value: "info"
+        - name: PORT
+          value: "8081"
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authn-service
+spec:
+  selector:
+    app: authn-service
+  ports:
+  - port: 8081
+    targetPort: 8081
+  type: ClusterIP
